@@ -12,7 +12,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
+import java.security.GeneralSecurityException;
+import java.security.MessageDigest;
 import java.time.LocalDateTime;
+import java.util.HexFormat;
 import java.util.UUID;
 
 /**
@@ -116,6 +122,25 @@ public class AuthService {
     public User getUserByToken(String token) {
         return userRepository.findByToken(token)
                 .orElseThrow(() -> new AuthenticationFailedException("Token invalide"));
+    }
+
+    @Service
+    public class HmacService {
+        public String hmacSha256Hex(String secret, String message) {
+            try {
+                Mac mac = Mac.getInstance("HmacSHA256");
+                mac.init(new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
+                return HexFormat.of().formatHex(mac.doFinal(message.getBytes(StandardCharsets.UTF_8)));
+            } catch (GeneralSecurityException e) {
+                throw new IllegalStateException("HMAC calculation error", e);
+            }
+        }
+
+        public boolean constantTimeEqualsHex(String a, String b) {
+            byte[] left = HexFormat.of().parseHex(a == null ? "" : a);
+            byte[] right = HexFormat.of().parseHex(b == null ? "" : b);
+            return MessageDigest.isEqual(left, right);
+        }
     }
 
 }
