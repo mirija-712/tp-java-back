@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 /**
  * Entité représentant un utilisateur.
- * ATTENTION : Cette implémentation est volontairement da   ngereuse
+ * ATTENTION : Cette implémentation est volontairement dangereuse
  * et ne doit jamais être utilisée en production.
  */
 @Entity
@@ -34,21 +34,45 @@ public class User {
     @Column(name = "token")
     private String token;
 
+    /**
+     * @return token d'authentification courant
+     */
     public String getToken() { return token; }
 
+    /**
+     * Constructeur par défaut requis par JPA.
+     */
     public User() {}
 
+    /**
+     * Construit un utilisateur métier.
+     *
+     * @param email email utilisateur
+     * @param password mot de passe en clair
+     */
     public User(String email, String password) {
         this.email = email;
         this.password = password;
         this.createdAt = LocalDateTime.now();
     }
 
-    // Getters & Setters
+    /**
+     * @return identifiant technique
+     */
     public Long getId() { return id; }
+
+    /**
+     * @return email utilisateur
+     */
     public String getEmail() { return email; }
 
+    /**
+     * @return mot de passe en clair (TP non sécurisé)
+     */
     public String getPassword() { return password; }
 
+    /**
+     * @return date de création du compte
+     */
     public LocalDateTime getCreatedAt() { return createdAt; }
 }

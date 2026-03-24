@@ -1,7 +1,9 @@
 package com.example.auth.service;
 
 import com.example.auth.entity.User;
-import com.example.auth.exception.*;
+import com.example.auth.exception.AuthenticationFailedException;
+import com.example.auth.exception.InvalidInputException;
+import com.example.auth.exception.ResourceConflictException;
 import com.example.auth.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,13 +20,24 @@ public class AuthService {
     private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
     private final UserRepository userRepository;
 
+    /**
+     * Construit le service d'authentification.
+     *
+     * @param userRepository repository des utilisateurs
+     */
     public AuthService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
 
     /**
-     * Inscrit un nouvel utilisateur.
+     * Inscrit un nouvel utilisateur après validation des données.
+     *
+     * @param email email utilisateur
+     * @param password mot de passe en clair (TP volontairement non sécurisé)
+     * @return utilisateur créé
+     * @throws InvalidInputException si email ou mot de passe est invalide
+     * @throws ResourceConflictException si l'email existe déjà
      */
     public User register(String email, String password) {
         if (email == null || email.isBlank() || !email.contains("@")) {
@@ -47,7 +60,12 @@ public class AuthService {
     }
 
     /**
-     * Connecte un utilisateur existant.
+     * Connecte un utilisateur et génère un token de session.
+     *
+     * @param email email utilisateur
+     * @param password mot de passe en clair
+     * @return utilisateur authentifié avec token mis à jour
+     * @throws AuthenticationFailedException si les identifiants sont incorrects
      */
     public User login(String email, String password) {
         User user = userRepository.findByEmail(email)
@@ -70,6 +88,13 @@ public class AuthService {
         return user;
     }
 
+    /**
+     * Récupère un utilisateur via son token.
+     *
+     * @param token token d'authentification
+     * @return utilisateur correspondant
+     * @throws AuthenticationFailedException si le token est invalide
+     */
     public User getUserByToken(String token) {
         return userRepository.findByToken(token)
                 .orElseThrow(() -> new AuthenticationFailedException("Token invalide"));
