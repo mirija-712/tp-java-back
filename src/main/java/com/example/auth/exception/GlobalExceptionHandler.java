@@ -12,6 +12,11 @@ import java.util.Map;
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
+    private static final String KEY_TIMESTAMP = "timestamp";
+    private static final String KEY_STATUS = "status";
+    private static final String KEY_ERROR = "error";
+    private static final String KEY_MESSAGE = "message";
+    private static final String KEY_PATH = "path";
 
     /**
      * Gère les erreurs de validation et de saisie.
@@ -21,13 +26,13 @@ public class GlobalExceptionHandler {
      * @return réponse 400 structurée
      */
     @ExceptionHandler(InvalidInputException.class)
-    public ResponseEntity<?> handleInvalidInput(InvalidInputException ex, HttpServletRequest request) {
+    public ResponseEntity<Map<String, Object>> handleInvalidInput(InvalidInputException ex, HttpServletRequest request) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
-                "timestamp", LocalDateTime.now().toString(),
-                "status", 400,
-                "error", "Bad Request",
-                "message", ex.getMessage(),
-                "path", request.getRequestURI()
+                KEY_TIMESTAMP, LocalDateTime.now().toString(),
+                KEY_STATUS, HttpStatus.BAD_REQUEST.value(),
+                KEY_ERROR, HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                KEY_MESSAGE, ex.getMessage(),
+                KEY_PATH, request.getRequestURI()
         ));
     }
 
@@ -39,13 +44,13 @@ public class GlobalExceptionHandler {
      * @return réponse 401 structurée
      */
     @ExceptionHandler(AuthenticationFailedException.class)
-    public ResponseEntity<?> handleAuthFailed(AuthenticationFailedException ex, HttpServletRequest request) {
+    public ResponseEntity<Map<String, Object>> handleAuthFailed(AuthenticationFailedException ex, HttpServletRequest request) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of(
-                "timestamp", LocalDateTime.now().toString(),
-                "status", 401,
-                "error", "Unauthorized",
-                "message", ex.getMessage(),
-                "path", request.getRequestURI()
+                KEY_TIMESTAMP, LocalDateTime.now().toString(),
+                KEY_STATUS, HttpStatus.UNAUTHORIZED.value(),
+                KEY_ERROR, HttpStatus.UNAUTHORIZED.getReasonPhrase(),
+                KEY_MESSAGE, ex.getMessage(),
+                KEY_PATH, request.getRequestURI()
         ));
     }
 
@@ -57,13 +62,13 @@ public class GlobalExceptionHandler {
      * @return réponse 409 structurée
      */
     @ExceptionHandler(ResourceConflictException.class)
-    public ResponseEntity<?> handleConflict(ResourceConflictException ex, HttpServletRequest request) {
+    public ResponseEntity<Map<String, Object>> handleConflict(ResourceConflictException ex, HttpServletRequest request) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of(
-                "timestamp", LocalDateTime.now().toString(),
-                "status", 409,
-                "error", "Conflict",
-                "message", ex.getMessage(),
-                "path", request.getRequestURI()
+                KEY_TIMESTAMP, LocalDateTime.now().toString(),
+                KEY_STATUS, HttpStatus.CONFLICT.value(),
+                KEY_ERROR, HttpStatus.CONFLICT.getReasonPhrase(),
+                KEY_MESSAGE, ex.getMessage(),
+                KEY_PATH, request.getRequestURI()
         ));
     }
 }

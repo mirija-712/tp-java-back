@@ -6200,3 +6200,162 @@ alter table users add constraint UK6dotkott2kjsp8vw4d0m25fb7 unique (email) [421
 2026-03-24 18:31:17 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2026-03-24 18:31:17 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-9 - Shutdown initiated...
 2026-03-24 18:31:17 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-9 - Shutdown completed.
+2026-03-24 18:39:01 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2026-03-24 18:39:01 [main] INFO  c.e.a.service.AuthApplicationTests - Starting AuthApplicationTests using Java 17.0.12 with PID 9000 (started by steve in D:\spring boot\tp-java1-4\auth_back)
+2026-03-24 18:39:01 [main] INFO  c.e.a.service.AuthApplicationTests - The following 1 profile is active: "test"
+2026-03-24 18:39:08 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-24 18:39:08 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 391 ms. Found 1 JPA repository interface.
+2026-03-24 18:39:13 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-24 18:39:13 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.3.Final
+2026-03-24 18:39:14 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-03-24 18:39:15 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-24 18:39:16 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-24 18:39:16 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2026-03-24 18:39:16 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-24 18:39:20 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-24 18:39:20 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-24 18:39:24 [main] INFO  c.e.a.service.AuthApplicationTests - Started AuthApplicationTests in 24.788 seconds (process running for 28.135)
+2026-03-24 18:39:26 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.auth.service.AuthServiceTest]: AuthServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-03-24 18:39:26 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.auth.AuthApplication for test class com.example.auth.service.AuthServiceTest
+2026-03-24 18:39:26 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-24 18:39:26 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-03-24 18:39:26 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-03-24 18:39:27 [main] INFO  c.e.auth.service.AuthServiceTest - Starting AuthServiceTest using Java 17.0.12 with PID 9000 (started by steve in D:\spring boot\tp-java1-4\auth_back)
+2026-03-24 18:39:27 [main] INFO  c.e.auth.service.AuthServiceTest - The following 1 profile is active: "test"
+2026-03-24 18:39:28 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-24 18:39:29 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 405 ms. Found 1 JPA repository interface.
+2026-03-24 18:39:34 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-24 18:39:34 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-03-24 18:39:35 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-24 18:39:36 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2026-03-24 18:39:36 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection conn10: url=jdbc:h2:mem:testdb user=SA
+2026-03-24 18:39:36 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2026-03-24 18:39:37 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-24 18:39:37 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-24 18:39:43 [main] INFO  c.e.auth.service.AuthServiceTest - Started AuthServiceTest in 16.893 seconds (process running for 47.404)
+2026-03-24 18:39:46 [main] INFO  c.example.auth.service.AuthService - Inscription réussie pour test@example.com
+2026-03-24 18:39:46 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-24 18:39:46 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2026-03-24 18:39:46 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2026-03-24 18:39:49 [main] INFO  c.e.auth.service.AuthServiceTest - Starting AuthServiceTest using Java 17.0.12 with PID 9000 (started by steve in D:\spring boot\tp-java1-4\auth_back)
+2026-03-24 18:39:49 [main] INFO  c.e.auth.service.AuthServiceTest - The following 1 profile is active: "test"
+2026-03-24 18:39:51 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-24 18:39:51 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 132 ms. Found 1 JPA repository interface.
+2026-03-24 18:39:52 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-24 18:39:52 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-03-24 18:39:52 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-24 18:39:52 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+2026-03-24 18:39:52 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-3 - Added connection conn20: url=jdbc:h2:mem:testdb user=SA
+2026-03-24 18:39:52 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+2026-03-24 18:39:52 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-24 18:39:52 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-24 18:39:53 [main] INFO  c.e.auth.service.AuthServiceTest - Started AuthServiceTest in 7.002 seconds (process running for 57.246)
+2026-03-24 18:39:53 [main] WARN  c.example.auth.service.AuthService - Connexion échouée : email inconnu inconnu@example.com
+2026-03-24 18:39:53 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-24 18:39:53 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
+2026-03-24 18:39:53 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
+2026-03-24 18:39:53 [main] INFO  c.e.auth.service.AuthServiceTest - Starting AuthServiceTest using Java 17.0.12 with PID 9000 (started by steve in D:\spring boot\tp-java1-4\auth_back)
+2026-03-24 18:39:53 [main] INFO  c.e.auth.service.AuthServiceTest - The following 1 profile is active: "test"
+2026-03-24 18:39:54 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-24 18:39:54 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 100 ms. Found 1 JPA repository interface.
+2026-03-24 18:39:55 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-24 18:39:55 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-03-24 18:39:55 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-24 18:39:55 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Starting...
+2026-03-24 18:39:55 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-4 - Added connection conn30: url=jdbc:h2:mem:testdb user=SA
+2026-03-24 18:39:55 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Start completed.
+2026-03-24 18:39:55 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-24 18:39:55 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-24 18:39:56 [main] INFO  c.e.auth.service.AuthServiceTest - Started AuthServiceTest in 2.53 seconds (process running for 59.944)
+2026-03-24 18:39:56 [main] INFO  c.example.auth.service.AuthService - Inscription réussie pour wrong@example.com
+2026-03-24 18:39:56 [main] WARN  c.example.auth.service.AuthService - Connexion échouée : mot de passe incorrect pour wrong@example.com
+2026-03-24 18:39:56 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-24 18:39:56 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown initiated...
+2026-03-24 18:39:56 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown completed.
+2026-03-24 18:39:56 [main] INFO  c.e.auth.service.AuthServiceTest - Starting AuthServiceTest using Java 17.0.12 with PID 9000 (started by steve in D:\spring boot\tp-java1-4\auth_back)
+2026-03-24 18:39:56 [main] INFO  c.e.auth.service.AuthServiceTest - The following 1 profile is active: "test"
+2026-03-24 18:39:58 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-24 18:39:58 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 83 ms. Found 1 JPA repository interface.
+2026-03-24 18:39:59 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-24 18:39:59 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-03-24 18:39:59 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-24 18:39:59 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Starting...
+2026-03-24 18:39:59 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-5 - Added connection conn40: url=jdbc:h2:mem:testdb user=SA
+2026-03-24 18:39:59 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Start completed.
+2026-03-24 18:39:59 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-24 18:39:59 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-24 18:39:59 [main] INFO  c.e.auth.service.AuthServiceTest - Started AuthServiceTest in 3.271 seconds (process running for 63.507)
+2026-03-24 18:39:59 [main] WARN  c.example.auth.service.AuthService - Inscription échouée : mot de passe trop court
+2026-03-24 18:39:59 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-24 18:39:59 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown initiated...
+2026-03-24 18:39:59 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown completed.
+2026-03-24 18:40:00 [main] INFO  c.e.auth.service.AuthServiceTest - Starting AuthServiceTest using Java 17.0.12 with PID 9000 (started by steve in D:\spring boot\tp-java1-4\auth_back)
+2026-03-24 18:40:00 [main] INFO  c.e.auth.service.AuthServiceTest - The following 1 profile is active: "test"
+2026-03-24 18:40:01 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-24 18:40:01 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 55 ms. Found 1 JPA repository interface.
+2026-03-24 18:40:01 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-24 18:40:01 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-03-24 18:40:01 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-24 18:40:01 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Starting...
+2026-03-24 18:40:01 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-6 - Added connection conn50: url=jdbc:h2:mem:testdb user=SA
+2026-03-24 18:40:01 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Start completed.
+2026-03-24 18:40:01 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-24 18:40:01 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-24 18:40:02 [main] INFO  c.e.auth.service.AuthServiceTest - Started AuthServiceTest in 2.203 seconds (process running for 65.747)
+2026-03-24 18:40:02 [main] INFO  c.example.auth.service.AuthService - Inscription réussie pour double@example.com
+2026-03-24 18:40:02 [main] WARN  c.example.auth.service.AuthService - Inscription échouée : email déjà existant double@example.com
+2026-03-24 18:40:02 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-24 18:40:02 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown initiated...
+2026-03-24 18:40:02 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown completed.
+2026-03-24 18:40:02 [main] INFO  c.e.auth.service.AuthServiceTest - Starting AuthServiceTest using Java 17.0.12 with PID 9000 (started by steve in D:\spring boot\tp-java1-4\auth_back)
+2026-03-24 18:40:02 [main] INFO  c.e.auth.service.AuthServiceTest - The following 1 profile is active: "test"
+2026-03-24 18:40:02 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-24 18:40:02 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 110 ms. Found 1 JPA repository interface.
+2026-03-24 18:40:03 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-24 18:40:03 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-03-24 18:40:03 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-24 18:40:03 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Starting...
+2026-03-24 18:40:03 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-7 - Added connection conn60: url=jdbc:h2:mem:testdb user=SA
+2026-03-24 18:40:03 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Start completed.
+2026-03-24 18:40:03 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-24 18:40:03 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-24 18:40:04 [main] INFO  c.e.auth.service.AuthServiceTest - Started AuthServiceTest in 2.032 seconds (process running for 67.927)
+2026-03-24 18:40:04 [main] WARN  c.example.auth.service.AuthService - Inscription échouée : email invalide
+2026-03-24 18:40:04 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-24 18:40:04 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Shutdown initiated...
+2026-03-24 18:40:04 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Shutdown completed.
+2026-03-24 18:40:04 [main] INFO  c.e.auth.service.AuthServiceTest - Starting AuthServiceTest using Java 17.0.12 with PID 9000 (started by steve in D:\spring boot\tp-java1-4\auth_back)
+2026-03-24 18:40:04 [main] INFO  c.e.auth.service.AuthServiceTest - The following 1 profile is active: "test"
+2026-03-24 18:40:04 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-24 18:40:05 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 94 ms. Found 1 JPA repository interface.
+2026-03-24 18:40:05 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-24 18:40:05 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-03-24 18:40:05 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-24 18:40:05 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Starting...
+2026-03-24 18:40:05 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-8 - Added connection conn70: url=jdbc:h2:mem:testdb user=SA
+2026-03-24 18:40:05 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Start completed.
+2026-03-24 18:40:05 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-24 18:40:05 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-24 18:40:06 [main] INFO  c.e.auth.service.AuthServiceTest - Started AuthServiceTest in 1.962 seconds (process running for 69.933)
+2026-03-24 18:40:06 [main] INFO  c.example.auth.service.AuthService - Inscription réussie pour login@example.com
+2026-03-24 18:40:06 [main] INFO  c.example.auth.service.AuthService - Connexion réussie pour login@example.com
+2026-03-24 18:40:06 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-24 18:40:06 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Shutdown initiated...
+2026-03-24 18:40:06 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Shutdown completed.
+2026-03-24 18:40:06 [main] INFO  c.e.auth.service.AuthServiceTest - Starting AuthServiceTest using Java 17.0.12 with PID 9000 (started by steve in D:\spring boot\tp-java1-4\auth_back)
+2026-03-24 18:40:06 [main] INFO  c.e.auth.service.AuthServiceTest - The following 1 profile is active: "test"
+2026-03-24 18:40:06 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-24 18:40:06 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 81 ms. Found 1 JPA repository interface.
+2026-03-24 18:40:07 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-24 18:40:07 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-03-24 18:40:07 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-24 18:40:07 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-9 - Starting...
+2026-03-24 18:40:07 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-9 - Added connection conn80: url=jdbc:h2:mem:testdb user=SA
+2026-03-24 18:40:07 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-9 - Start completed.
+2026-03-24 18:40:07 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-24 18:40:07 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-24 18:40:08 [main] INFO  c.e.auth.service.AuthServiceTest - Started AuthServiceTest in 2.035 seconds (process running for 72.111)
+2026-03-24 18:40:08 [main] WARN  c.example.auth.service.AuthService - Inscription échouée : email invalide
+2026-03-24 18:40:08 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-24 18:40:08 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-9 - Shutdown initiated...
+2026-03-24 18:40:08 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-9 - Shutdown completed.

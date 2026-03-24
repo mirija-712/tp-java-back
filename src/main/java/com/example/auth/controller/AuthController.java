@@ -7,6 +7,8 @@ import com.example.auth.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 /**
  * Controller REST pour l'authentification.
  * ATTENTION : Cette implémentation est volontairement dangereuse
@@ -34,7 +36,7 @@ public class AuthController {
      * @return message de confirmation
      */
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
         authService.register(request.getEmail(), request.getPassword());
         return ResponseEntity.ok("Inscription réussie");
     }
@@ -46,9 +48,9 @@ public class AuthController {
      * @return token d'authentification
      */
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequest request) {
         User user = authService.login(request.getEmail(), request.getPassword());
-        return ResponseEntity.ok(java.util.Map.of("token", user.getToken()));
+        return ResponseEntity.ok(Map.of("token", user.getToken()));
     }
 
     /**
@@ -58,9 +60,9 @@ public class AuthController {
      * @return informations de l'utilisateur
      */
     @GetMapping("/me")
-    public ResponseEntity<?> me(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<Map<String, String>> me(@RequestHeader("Authorization") String token) {
         User user = authService.getUserByToken(token);
-        return ResponseEntity.ok(java.util.Map.of(
+        return ResponseEntity.ok(Map.of(
                 "email", user.getEmail(),
                 "createdAt", user.getCreatedAt().toString()
         ));
