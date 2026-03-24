@@ -71,4 +71,17 @@ public class GlobalExceptionHandler {
                 KEY_PATH, request.getRequestURI()
         ));
     }
+
+    @ExceptionHandler(TooManyAttemptsException.class)
+    public ResponseEntity<Map<String, Object>> handleTooManyAttempts(TooManyAttemptsException ex,
+                                                                     HttpServletRequest request) {
+        return ResponseEntity.status(423).body(Map.of(
+                "timestamp", LocalDateTime.now().toString(),
+                "status", 423,
+                "error", "Locked",
+                "message", ex.getMessage(),
+                "path", request.getRequestURI()
+        ));
+    }
+
 }

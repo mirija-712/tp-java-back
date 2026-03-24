@@ -4,6 +4,7 @@ import com.example.auth.entity.User;
 import com.example.auth.exception.AuthenticationFailedException;
 import com.example.auth.exception.InvalidInputException;
 import com.example.auth.exception.ResourceConflictException;
+import com.example.auth.exception.TooManyAttemptsException;
 import com.example.auth.repository.UserRepository;
 import com.example.auth.security.PasswordPolicyValidator;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -25,6 +27,8 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final PasswordPolicyValidator passwordPolicyValidator;
+    private static final int MAX_FAILED_ATTEMPTS = 5;
+    private static final long LOCK_MINUTES = 2;
 
     /**
      * Construit le service d'authentification.
@@ -79,23 +83,27 @@ public class AuthService {
      */
     public User login(String email, String password) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> {
-                    logger.warn("Connexion échouée : email inconnu {}", email);
-                    return new AuthenticationFailedException("Email ou mot de passe incorrect");
-                });
+                .orElseThrow(() -> new AuthenticationFailedException("Email ou mot de passe incorrect"));
+
+        if (user.getLockUntil() != null && user.getLockUntil().isAfter(LocalDateTime.now())) {
+            throw new TooManyAttemptsException("Compte temporairement bloque");
+        }
 
         if (!passwordEncoder.matches(password, user.getPasswordHash())) {
-            logger.warn("Connexion échouée : mot de passe incorrect pour {}", email);
+            int nextAttempts = user.getFailedAttempts() + 1;
+            user.setFailedAttempts(nextAttempts);
+            if (nextAttempts >= MAX_FAILED_ATTEMPTS) {
+                user.setLockUntil(LocalDateTime.now().plusMinutes(LOCK_MINUTES));
+                user.setFailedAttempts(0);
+            }
+            userRepository.save(user);
             throw new AuthenticationFailedException("Email ou mot de passe incorrect");
         }
 
-        // Génère un token simple et le sauvegarde
-        String token = UUID.randomUUID().toString();
-        user.setToken(token);
-        userRepository.save(user);
-
-        logger.info("Connexion réussie pour {}", email);
-        return user;
+        user.setFailedAttempts(0);
+        user.setLockUntil(null);
+        user.setToken(UUID.randomUUID().toString());
+        return userRepository.save(user);
     }
 
     /**
@@ -109,4 +117,5 @@ public class AuthService {
         return userRepository.findByToken(token)
                 .orElseThrow(() -> new AuthenticationFailedException("Token invalide"));
     }
+
 }
