@@ -44,4 +44,24 @@ public class AuthService {
         logger.info("Inscription réussie pour {}", email);
         return user;
     }
+
+    /**
+     * Connecte un utilisateur existant.
+     */
+    public User login(String email, String password) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> {
+                    logger.warn("Connexion échouée : email inconnu {}", email);
+                    return new AuthenticationFailedException("Email ou mot de passe incorrect");
+                });
+
+        if (!user.getPassword().equals(password)) {
+            logger.warn("Connexion échouée : mot de passe incorrect pour {}", email);
+            throw new AuthenticationFailedException("Email ou mot de passe incorrect");
+        }
+
+        logger.info("Connexion réussie pour {}", email);
+        return user;
+    }
+
 }

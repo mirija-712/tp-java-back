@@ -1,5 +1,6 @@
 package com.example.auth.controller;
 
+import com.example.auth.dto.LoginRequest;
 import com.example.auth.dto.RegisterRequest;
 import com.example.auth.service.AuthService;
 import org.springframework.http.ResponseEntity;
@@ -25,4 +26,11 @@ public class AuthController {
         authService.register(request.getEmail(), request.getPassword());
         return ResponseEntity.ok("Inscription réussie");
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        authService.login(request.getEmail(), request.getPassword());
+        return ResponseEntity.ok("Connexion réussie");
+    }
+
 }
