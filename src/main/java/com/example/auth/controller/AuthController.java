@@ -2,6 +2,7 @@ package com.example.auth.controller;
 
 import com.example.auth.dto.LoginRequest;
 import com.example.auth.dto.RegisterRequest;
+import com.example.auth.entity.User;
 import com.example.auth.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +30,17 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        authService.login(request.getEmail(), request.getPassword());
-        return ResponseEntity.ok("Connexion réussie");
+        User user = authService.login(request.getEmail(), request.getPassword());
+        return ResponseEntity.ok(java.util.Map.of("token", user.getToken()));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> me(@RequestHeader("Authorization") String token) {
+        User user = authService.getUserByToken(token);
+        return ResponseEntity.ok(java.util.Map.of(
+                "email", user.getEmail(),
+                "createdAt", user.getCreatedAt().toString()
+        ));
     }
 
 }

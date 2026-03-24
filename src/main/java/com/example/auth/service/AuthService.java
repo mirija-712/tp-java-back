@@ -22,6 +22,7 @@ public class AuthService {
         this.userRepository = userRepository;
     }
 
+
     /**
      * Inscrit un nouvel utilisateur.
      */
@@ -60,8 +61,18 @@ public class AuthService {
             throw new AuthenticationFailedException("Email ou mot de passe incorrect");
         }
 
+        // Génère un token simple et le sauvegarde
+        String token = java.util.UUID.randomUUID().toString();
+        user.setToken(token);
+        userRepository.save(user);
+
         logger.info("Connexion réussie pour {}", email);
         return user;
+    }
+
+    public User getUserByToken(String token) {
+        return userRepository.findByToken(token)
+                .orElseThrow(() -> new AuthenticationFailedException("Token invalide"));
     }
 
 }
