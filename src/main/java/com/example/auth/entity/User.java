@@ -1,8 +1,6 @@
 package com.example.auth.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -15,64 +13,32 @@ import java.time.LocalDateTime;
 @Table(name = "users")
 public class User {
 
-    /**
-     * -- GETTER --
-     *
-     * @return identifiant technique
-     */
-    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /**
-     * -- GETTER --
-     *
-     * @return email utilisateur
-     */
-    @Getter
-    @Setter
     @Column(unique = true, nullable = false)
     private String email;
 
-    /**
-     * -- GETTER --
-     *
-     * @return mot de passe en clair (TP non sécurisé)
-     */
-    // TP1 volontairement dangereux : mot de passe en clair
-    @Getter
-    @Setter
-    @Column(name = "password_clear", nullable = false)
-    private String password;
+    @Column(name = "password_hash", nullable = false)
+    private String passwordHash;
 
-    /**
-     * -- GETTER --
-     *
-     * @return date de création du compte
-     */
-    @Getter
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    /**
-     * -- GETTER --
-     *
-     * @return token d'authentification courant
-     */
-    @Getter
-    @Setter
     @Column(name = "token")
     private String token;
-
-    @Column(name = "password_hash", nullable = false)
-    private String passwordHash;
 
     @Column(name = "failed_attempts", nullable = false)
     private int failedAttempts;
 
     @Column(name = "lock_until")
     private LocalDateTime lockUntil;
+
+    /**
+     * @return token d'authentification courant
+     */
+    public String getToken() { return token; }
 
     /**
      * Constructeur par défaut requis par JPA.
@@ -83,12 +49,49 @@ public class User {
      * Construit un utilisateur métier.
      *
      * @param email email utilisateur
-     * @param password mot de passe en clair
+     * @param passwordHash hash du mot de passe
      */
-    public User(String email, String password) {
+    public User(String email, String passwordHash) {
         this.email = email;
-        this.password = password;
+        this.passwordHash = passwordHash;
         this.createdAt = LocalDateTime.now();
+        this.failedAttempts = 0;
+        this.lockUntil = null;
     }
 
+    /**
+     * @return identifiant technique
+     */
+    public Long getId() { return id; }
+
+    /**
+     * @return email utilisateur
+     */
+    public String getEmail() { return email; }
+
+    /**
+     * @return hash du mot de passe
+     */
+    public String getPasswordHash() { return passwordHash; }
+
+    /**
+     * @return date de création du compte
+     */
+    public LocalDateTime getCreatedAt() { return createdAt; }
+
+    public int getFailedAttempts() { return failedAttempts; }
+
+    public LocalDateTime getLockUntil() { return lockUntil; }
+
+    public void setEmail(String email) { this.email = email; }
+
+    public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
+
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public void setToken(String token) { this.token = token; }
+
+    public void setFailedAttempts(int failedAttempts) { this.failedAttempts = failedAttempts; }
+
+    public void setLockUntil(LocalDateTime lockUntil) { this.lockUntil = lockUntil; }
 }

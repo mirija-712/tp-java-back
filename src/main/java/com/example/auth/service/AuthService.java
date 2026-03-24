@@ -5,9 +5,13 @@ import com.example.auth.exception.AuthenticationFailedException;
 import com.example.auth.exception.InvalidInputException;
 import com.example.auth.exception.ResourceConflictException;
 import com.example.auth.repository.UserRepository;
+import com.example.auth.security.PasswordPolicyValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 /**
  * Service principal d'authentification.
@@ -19,14 +23,20 @@ public class AuthService {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final PasswordPolicyValidator passwordPolicyValidator;
 
     /**
      * Construit le service d'authentification.
      *
      * @param userRepository repository des utilisateurs
      */
-    public AuthService(UserRepository userRepository) {
+    public AuthService(UserRepository userRepository,
+                       PasswordEncoder passwordEncoder,
+                       PasswordPolicyValidator passwordPolicyValidator) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.passwordPolicyValidator = passwordPolicyValidator;
     }
 
 
@@ -44,16 +54,16 @@ public class AuthService {
             logger.warn("Inscription échouée : email invalide");
             throw new InvalidInputException("Email invalide");
         }
-        if (password == null || password.length() < 4) {
-            logger.warn("Inscription échouée : mot de passe trop court");
-            throw new InvalidInputException("Mot de passe trop court (minimum 4 caractères)");
+        if (!passwordPolicyValidator.isValid(password)) {
+            logger.warn("Inscription échouée : mot de passe non conforme à la politique TP2");
+            throw new InvalidInputException("Mot de passe non conforme à la politique TP2");
         }
         if (userRepository.findByEmail(email).isPresent()) {
             logger.warn("Inscription échouée : email déjà existant {}", email);
             throw new ResourceConflictException("Email déjà utilisé");
         }
 
-        User user = new User(email, password);
+        User user = new User(email, passwordEncoder.encode(password));
         userRepository.save(user);
         logger.info("Inscription réussie pour {}", email);
         return user;
@@ -74,13 +84,13 @@ public class AuthService {
                     return new AuthenticationFailedException("Email ou mot de passe incorrect");
                 });
 
-        if (!user.getPassword().equals(password)) {
+        if (!passwordEncoder.matches(password, user.getPasswordHash())) {
             logger.warn("Connexion échouée : mot de passe incorrect pour {}", email);
             throw new AuthenticationFailedException("Email ou mot de passe incorrect");
         }
 
         // Génère un token simple et le sauvegarde
-        String token = java.util.UUID.randomUUID().toString();
+        String token = UUID.randomUUID().toString();
         user.setToken(token);
         userRepository.save(user);
 
@@ -99,5 +109,4 @@ public class AuthService {
         return userRepository.findByToken(token)
                 .orElseThrow(() -> new AuthenticationFailedException("Token invalide"));
     }
-
 }

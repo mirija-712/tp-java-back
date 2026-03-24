@@ -15,49 +15,50 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class AuthServiceTest {
+    private static final String STRONG_PASSWORD = "Pwd1234!Pwd1";
 
     @Autowired
     private AuthService authService;
 
     @Test
     void testInscriptionOK() {
-        assertDoesNotThrow(() -> authService.register("test@example.com", "abcd"));
+        assertDoesNotThrow(() -> authService.register("test@example.com", STRONG_PASSWORD));
     }
 
     @Test
     void testInscriptionEmailDejaExistant() {
-        authService.register("double@example.com", "abcd");
+        authService.register("double@example.com", STRONG_PASSWORD);
         assertThrows(ResourceConflictException.class, () ->
-                authService.register("double@example.com", "abcd"));
+                authService.register("double@example.com", STRONG_PASSWORD));
     }
 
     @Test
     void testInscriptionEmailVide() {
         assertThrows(InvalidInputException.class, () ->
-                authService.register("", "abcd"));
+                authService.register("", STRONG_PASSWORD));
     }
 
     @Test
     void testInscriptionEmailFormatInvalide() {
         assertThrows(InvalidInputException.class, () ->
-                authService.register("pasunemail", "abcd"));
+                authService.register("pasunemail", STRONG_PASSWORD));
     }
 
     @Test
     void testInscriptionMotDePasseTropCourt() {
         assertThrows(InvalidInputException.class, () ->
-                authService.register("court@example.com", "abc"));
+                authService.register("court@example.com", "Ab1!"));
     }
 
     @Test
     void testConnexionOK() {
-        authService.register("login@example.com", "abcd");
-        assertDoesNotThrow(() -> authService.login("login@example.com", "abcd"));
+        authService.register("login@example.com", STRONG_PASSWORD);
+        assertDoesNotThrow(() -> authService.login("login@example.com", STRONG_PASSWORD));
     }
 
     @Test
     void testConnexionMotDePasseIncorrect() {
-        authService.register("wrong@example.com", "abcd");
+        authService.register("wrong@example.com", STRONG_PASSWORD);
         assertThrows(AuthenticationFailedException.class, () ->
                 authService.login("wrong@example.com", "mauvais"));
     }
@@ -65,6 +66,6 @@ class AuthServiceTest {
     @Test
     void testConnexionEmailInconnu() {
         assertThrows(AuthenticationFailedException.class, () ->
-                authService.login("inconnu@example.com", "abcd"));
+                authService.login("inconnu@example.com", STRONG_PASSWORD));
     }
 }
