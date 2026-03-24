@@ -6705,3 +6705,6 @@ alter table users add constraint UK6dotkott2kjsp8vw4d0m25fb7 unique (email) [421
 2026-03-24 19:47:08 [http-nio-8080-exec-1] WARN  c.example.auth.service.AuthService - Inscription échouée : mot de passe non conforme à la politique TP2
 2026-03-24 19:47:31 [http-nio-8080-exec-3] INFO  c.example.auth.service.AuthService - Inscription réussie pour steve@gmail.com
 2026-03-24 19:49:22 [http-nio-8080-exec-6] WARN  c.example.auth.service.AuthService - Inscription échouée : email déjà existant steve@gmail.com
+2026-03-24 20:03:09 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-24 20:03:09 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-03-24 20:03:09 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
