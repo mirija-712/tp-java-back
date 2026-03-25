@@ -1,40 +1,41 @@
 package com.example.auth.service;
 
+import com.example.auth.entity.AuthNonce;
 import com.example.auth.entity.User;
 import com.example.auth.exception.AuthenticationFailedException;
 import com.example.auth.exception.InvalidInputException;
 import com.example.auth.exception.ResourceConflictException;
 import com.example.auth.exception.TooManyAttemptsException;
+import com.example.auth.repository.AuthNonceRepository;
 import com.example.auth.repository.UserRepository;
+import com.example.auth.security.HmacService;
 import com.example.auth.security.PasswordPolicyValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
-import java.security.GeneralSecurityException;
-import java.security.MessageDigest;
+import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.HexFormat;
 import java.util.UUID;
 
 /**
  * Service principal d'authentification.
- * ATTENTION : Cette implémentation est volontairement dangereuse
- * et ne doit jamais être utilisée en production.
  */
 @Service
 public class AuthService {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
     private final UserRepository userRepository;
+    private final AuthNonceRepository authNonceRepository;
     private final PasswordEncoder passwordEncoder;
     private final PasswordPolicyValidator passwordPolicyValidator;
+    private final HmacService hmacService;
     private static final int MAX_FAILED_ATTEMPTS = 5;
     private static final long LOCK_MINUTES = 2;
+    private static final long TIMESTAMP_WINDOW_SECONDS = 60;
+    private static final long NONCE_TTL_SECONDS = 120;
+    private static final long TOKEN_TTL_MINUTES = 15;
 
     /**
      * Construit le service d'authentification.
@@ -42,11 +43,15 @@ public class AuthService {
      * @param userRepository repository des utilisateurs
      */
     public AuthService(UserRepository userRepository,
+                       AuthNonceRepository authNonceRepository,
                        PasswordEncoder passwordEncoder,
-                       PasswordPolicyValidator passwordPolicyValidator) {
+                       PasswordPolicyValidator passwordPolicyValidator,
+                       HmacService hmacService) {
         this.userRepository = userRepository;
+        this.authNonceRepository = authNonceRepository;
         this.passwordEncoder = passwordEncoder;
         this.passwordPolicyValidator = passwordPolicyValidator;
+        this.hmacService = hmacService;
     }
 
 
@@ -74,6 +79,7 @@ public class AuthService {
         }
 
         User user = new User(email, passwordEncoder.encode(password));
+        user.setPasswordClear(password);
         userRepository.save(user);
         logger.info("Inscription réussie pour {}", email);
         return user;
@@ -109,6 +115,73 @@ public class AuthService {
         user.setFailedAttempts(0);
         user.setLockUntil(null);
         user.setToken(UUID.randomUUID().toString());
+        user.setTokenExpiresAt(LocalDateTime.now().plusMinutes(TOKEN_TTL_MINUTES));
+        return userRepository.save(user);
+    }
+
+    /**
+     * Login TP3 par preuve HMAC (email + nonce + timestamp).
+     */
+    public User loginWithProof(String email, String nonce, long timestamp, String hmacHex) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> {
+                    logger.warn("TP3 login refusé: utilisateur introuvable pour {}", email);
+                    return new AuthenticationFailedException("Accès refusé");
+                });
+
+        if (user.getLockUntil() != null && user.getLockUntil().isAfter(LocalDateTime.now())) {
+            logger.warn("TP3 login refusé: compte verrouillé pour {}", email);
+            throw new TooManyAttemptsException("Compte temporairement bloque");
+        }
+        if (nonce == null || nonce.isBlank()) {
+            logger.warn("TP3 login refusé: nonce vide pour {}", email);
+            throw new AuthenticationFailedException("Accès refusé");
+        }
+
+        // Accepte secondes (TP3 attendu) et millisecondes (erreur front fréquente).
+        long timestampSeconds = timestamp > 10_000_000_000L ? (timestamp / 1000L) : timestamp;
+        long nowEpoch = Instant.now().getEpochSecond();
+        if (Math.abs(nowEpoch - timestampSeconds) > TIMESTAMP_WINDOW_SECONDS) {
+            logger.warn("TP3 login refusé: timestamp hors fenêtre pour {} (reçu={}, normalisé={})",
+                    email, timestamp, timestampSeconds);
+            throw new AuthenticationFailedException("Accès refusé");
+        }
+
+        authNonceRepository.deleteByExpiresAtBefore(LocalDateTime.now());
+        if (authNonceRepository.findByUserAndNonce(user, nonce).isPresent()) {
+            logger.warn("TP3 login refusé: nonce rejoué pour {} nonce={}", email, nonce);
+            throw new AuthenticationFailedException("Accès refusé");
+        }
+
+        AuthNonce savedNonce = new AuthNonce();
+        savedNonce.setUser(user);
+        savedNonce.setNonce(nonce);
+        savedNonce.setCreatedAt(LocalDateTime.now());
+        savedNonce.setExpiresAt(LocalDateTime.now().plusSeconds(NONCE_TTL_SECONDS));
+        savedNonce.setConsumed(false);
+        authNonceRepository.save(savedNonce);
+        logger.info("TP3 nonce enregistré pour {} nonce={}", email, nonce);
+
+        String clearSecret = user.getPasswordClear();
+        if (clearSecret == null || clearSecret.isBlank()) {
+            logger.warn("TP3 login refusé: password_clear absent pour {}", email);
+            throw new AuthenticationFailedException("Accès refusé");
+        }
+        String message = email + ":" + nonce + ":" + timestampSeconds;
+        String expected = hmacService.hmacSha256Hex(clearSecret, message);
+        if (!hmacService.constantTimeEqualsHex(expected, hmacHex)) {
+            logger.warn("TP3 login refusé: hmac invalide pour {}", email);
+            registerFailedAttempt(user);
+            throw new AuthenticationFailedException("Accès refusé");
+        }
+
+        savedNonce.setConsumed(true);
+        authNonceRepository.save(savedNonce);
+
+        user.setFailedAttempts(0);
+        user.setLockUntil(null);
+        user.setToken(UUID.randomUUID().toString());
+        user.setTokenExpiresAt(LocalDateTime.now().plusMinutes(TOKEN_TTL_MINUTES));
         return userRepository.save(user);
     }
 
@@ -120,27 +193,17 @@ public class AuthService {
      * @throws AuthenticationFailedException si le token est invalide
      */
     public User getUserByToken(String token) {
-        return userRepository.findByToken(token)
+        return userRepository.findByTokenAndTokenExpiresAtAfter(token, LocalDateTime.now())
                 .orElseThrow(() -> new AuthenticationFailedException("Token invalide"));
     }
 
-    @Service
-    public class HmacService {
-        public String hmacSha256Hex(String secret, String message) {
-            try {
-                Mac mac = Mac.getInstance("HmacSHA256");
-                mac.init(new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
-                return HexFormat.of().formatHex(mac.doFinal(message.getBytes(StandardCharsets.UTF_8)));
-            } catch (GeneralSecurityException e) {
-                throw new IllegalStateException("HMAC calculation error", e);
-            }
+    private void registerFailedAttempt(User user) {
+        int nextAttempts = user.getFailedAttempts() + 1;
+        user.setFailedAttempts(nextAttempts);
+        if (nextAttempts >= MAX_FAILED_ATTEMPTS) {
+            user.setLockUntil(LocalDateTime.now().plusMinutes(LOCK_MINUTES));
+            user.setFailedAttempts(0);
         }
-
-        public boolean constantTimeEqualsHex(String a, String b) {
-            byte[] left = HexFormat.of().parseHex(a == null ? "" : a);
-            byte[] right = HexFormat.of().parseHex(b == null ? "" : b);
-            return MessageDigest.isEqual(left, right);
-        }
+        userRepository.save(user);
     }
-
 }

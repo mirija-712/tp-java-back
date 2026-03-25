@@ -11,8 +11,6 @@ import java.util.Map;
 
 /**
  * Controller REST pour l'authentification.
- * ATTENTION : Cette implémentation est volontairement dangereuse
- * et ne doit jamais être utilisée en production.
  */
 @RestController
 @RequestMapping("/api/auth")
@@ -49,8 +47,17 @@ public class AuthController {
      */
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequest request) {
-        User user = authService.login(request.getEmail(), request.getPassword());
-        return ResponseEntity.ok(Map.of("token", user.getToken()));
+        User user = authService.loginWithProof(
+                request.getEmail(),
+                request.getNonce(),
+                request.getTimestamp(),
+                request.getHmac()
+        );
+        return ResponseEntity.ok(Map.of(
+                "token", user.getToken(),
+                "accessToken", user.getToken(),
+                "expiresAt", user.getTokenExpiresAt().toString()
+        ));
     }
 
     /**

@@ -23,11 +23,18 @@ public class User {
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
+    // TP3 pédagogique: secret en clair pour vérifier la preuve HMAC.
+    @Column(name = "password_clear")
+    private String passwordClear;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @Column(name = "token")
     private String token;
+
+    @Column(name = "token_expires_at")
+    private LocalDateTime tokenExpiresAt;
 
     @Column(name = "failed_attempts", nullable = false)
     private int failedAttempts;
@@ -73,6 +80,7 @@ public class User {
      * @return hash du mot de passe
      */
     public String getPasswordHash() { return passwordHash; }
+    public String getPasswordClear() { return passwordClear; }
 
     /**
      * @return date de création du compte
@@ -82,14 +90,17 @@ public class User {
     public int getFailedAttempts() { return failedAttempts; }
 
     public LocalDateTime getLockUntil() { return lockUntil; }
+    public LocalDateTime getTokenExpiresAt() { return tokenExpiresAt; }
 
     public void setEmail(String email) { this.email = email; }
 
     public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
+    public void setPasswordClear(String passwordClear) { this.passwordClear = passwordClear; }
 
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
     public void setToken(String token) { this.token = token; }
+    public void setTokenExpiresAt(LocalDateTime tokenExpiresAt) { this.tokenExpiresAt = tokenExpiresAt; }
 
     public void setFailedAttempts(int failedAttempts) { this.failedAttempts = failedAttempts; }
 
